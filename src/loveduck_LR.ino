@@ -246,6 +246,7 @@ void sendOSCMsg()
       outMessage.send(udp,outIP,outPort);
       delay(1);
     }
+    piezo_OK = false;
   }
 }
 
