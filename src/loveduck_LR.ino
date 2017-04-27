@@ -7,7 +7,6 @@ SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
 
 
-
 // FLORA neopixel
 #define PIXEL_PIN D2
 #define PIXEL_COUNT 4
@@ -49,12 +48,8 @@ const uint8_t ledPin = D7;
 
 const uint8_t FSRAnalogPin = A0;
 const uint8_t whisperAnalogPin = A1;
-// const uint8_t pot_B_Pin = A2;
-<<<<<<< HEAD:src/loveduck_LR.ino
+const uint8_t pot_B_Pin = A2;
 const uint8_t pot_A_Pin = A3;
-=======
-// const uint8_t pot_A_Pin = A3;
->>>>>>> origin/master:src/loveduck.ino
 const uint8_t piezoAnalogPin = A4;
 const uint8_t tearAnalogPin = A5;
 
@@ -103,8 +98,6 @@ void checkPiezo();
 void checkTear();
 void checkWhisper();
 
-<<<<<<< HEAD:src/loveduck_LR.ino
-=======
 void PING(OSCMessage &inMessage);
 void setModeToStandby(OSCMessage &inMessage);
 void setModeToPatience(OSCMessage &inMessage);
@@ -113,9 +106,6 @@ void setModeToCrush(OSCMessage &inMessage);
 void setModeToSync(OSCMessage &inMessage);
 
 
-
-
->>>>>>> origin/master:src/loveduck.ino
 void setup()
 {
   initPort();
@@ -163,7 +153,7 @@ void initWifi()
 {
 
   // static IP setting
-  IPAddress myAddress(192, 168, 100, 101);
+  IPAddress myAddress(192, 168, 100, 107);
   IPAddress netmask(255, 255, 255, 0);
   IPAddress gateway(192, 168, 100, 1);
   IPAddress dns(192, 168, 100, 1);
@@ -192,7 +182,7 @@ void initBoard()
   sendOSC_OK = false;
 
   // serial is used for debug only
-  Serial.begin(115200);
+  //Serial.begin(115200);
 
   // udp begin for OSC communication
   udp.begin(8001);
@@ -230,29 +220,6 @@ void sendOSCMsg()
     touch_B_OK = false;
   }
 
-<<<<<<< HEAD:src/loveduck_LR.ino
-=======
-  if (accel_OK == true)
-  {
-    pixelOn();
-    OSCMessage outMessage("/accel");
-    outMessage.addInt(1);
-    outMessage.send(udp,outIP,outPort);
-    delay(1);
-    pixelOff();
-    accel_OK = false;
-  }
-
-  if (gyro_OK == true)
-  {
-    OSCMessage outMessage("/gyro");
-    outMessage.addInt(1);
-    outMessage.send(udp,outIP,outPort);
-    delay(1);
-    gyro_OK = false;
-  }
-
->>>>>>> origin/master:src/loveduck.ino
   if (FSR_OK == true)
   {
     OSCMessage outMessage("/force");
@@ -262,27 +229,14 @@ void sendOSCMsg()
     FSR_OK = false;
   }
 
-  if (whisper_OK == true)
-  {
-<<<<<<< HEAD:src/loveduck_LR.ino
-=======
-    pixelOn();
->>>>>>> origin/master:src/loveduck.ino
-    OSCMessage outMessage("/wind");
-    outMessage.addInt(1);
-    outMessage.send(udp,outIP,outPort);
-    delay(1);
-    whisper_OK = false;
-  }
-
   if (piezo_OK == true)
   {
-<<<<<<< HEAD:src/loveduck_LR.ino
     if (analogRead(pot_A_Pin) < 2000)
     {
       OSCMessage outMessage("/left");
       outMessage.addInt(1);
       outMessage.send(udp,outIP,outPort);
+      //Serial.println("left");
       delay(1);
     }
     else if (analogRead(pot_A_Pin) >= 2000)
@@ -292,25 +246,7 @@ void sendOSCMsg()
       outMessage.send(udp,outIP,outPort);
       delay(1);
     }
-
-
-=======
-    pixelOn();
-    OSCMessage outMessage("/piezo");
-    outMessage.addInt(1);
-    outMessage.send(udp,outIP,outPort);
-    delay(1);
-    pixelOff();
->>>>>>> origin/master:src/loveduck.ino
-    piezo_OK = false;
   }
-
-  if (tear_OK == true)
-  {
-    delay(1);
-    tear_OK = false;
-  }
-
 }
 
 void checkOSCMsg()
@@ -337,41 +273,7 @@ void checkOSCMsg()
 
 void checkSensors()
 {
-  switch (duck_mode) {
-    case MODE_STANDBY:
-<<<<<<< HEAD:src/loveduck_LR.ino
-      checkFSR();
-      //checkWhisper();
-      checkPiezo();
-=======
-      // checkAccel();
-      // checkGyro();
-      // checkFSR();
-      // checkWhisper();
-      // checkPiezo();
-      Serial.println("STANDBY");
-      break;
->>>>>>> origin/master:src/loveduck.ino
-
-    case MODE_PATIENCE:
-      Serial.println("PATIENCE");
-      break;
-
-    case MODE_LOVELY:
-      Serial.println("LOVELY");
-      break;
-
-    case MODE_CRUSH:
-      Serial.println("CRUSH");
-      break;
-
-    case MODE_SYNC:
-      Serial.println("SYNC");
-      break;
-
-    default:
-      break;
-  }
+  checkPiezo();
 
 }
 
@@ -455,41 +357,41 @@ void pixelOff()
 
 void PING(OSCMessage &inMessage)
 {
-    Serial.println("/ping");
+    //Serial.println("/ping");
 //Do something
 }
 
 void setModeToStandby(OSCMessage &inMessage)
 {
-    Serial.println("/standby");
+    //Serial.println("/standby");
     setMode(MODE_STANDBY);
 //Do something
 }
 
 void setModeToPatience(OSCMessage &inMessage)
 {
-    Serial.println("/patience");
+    //Serial.println("/patience");
     setMode(MODE_PATIENCE);
 //Do something
 }
 
 void setModeToLovely(OSCMessage &inMessage)
 {
-    Serial.println("/lovely");
+    //Serial.println("/lovely");
     setMode(MODE_LOVELY);
 //Do something
 }
 
 void setModeToCrush(OSCMessage &inMessage)
 {
-    Serial.println("/crush");
+    //Serial.println("/crush");
     setMode(MODE_CRUSH);
 //Do something
 }
 
 void setModeToSync(OSCMessage &inMessage)
 {
-    Serial.println("/sync");
+    //Serial.println("/sync");
     setMode(MODE_SYNC);
 //Do something
 }
